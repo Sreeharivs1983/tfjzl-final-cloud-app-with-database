@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from . import views
 
 app_name = 'onlinecourse'
+
 urlpatterns = [
     # route is a string contains a URL pattern
     # view refers to the view function
@@ -12,13 +13,23 @@ urlpatterns = [
     path('registration/', views.registration_request, name='registration'),
     path('login/', views.login_request, name='login'),
     path('logout/', views.logout_request, name='logout'),
+
     # ex: /onlinecourse/5/
     path('<int:pk>/', views.CourseDetailView.as_view(), name='course_details'),
-    # ex: /enroll/5/
+
+    # ex: /onlinecourse/5/enroll/
     path('<int:course_id>/enroll/', views.enroll, name='enroll'),
 
-    # <HINT> Create a route for submit view
+    # ===============================
+    # TASK 5 ROUTES ADDED HERE
+    # ===============================
 
-    # <HINT> Create a route for show_exam_result view
+    # ex: /onlinecourse/5/submit/
+    path('<int:course_id>/submit/', views.submit, name='submit'),
 
- ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # ex: /onlinecourse/5/result/3/
+    path('<int:course_id>/result/<int:submission_id>/',
+         views.show_exam_result,
+         name='show_exam_result'),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
